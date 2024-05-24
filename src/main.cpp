@@ -3,8 +3,8 @@
 int main() {
 	sf::RenderWindow	window(sf::VideoMode(800, 600), "sentinel");
 	
-	Player	player("Victor");
 	Map		map;
+	Player	player("Victor", map.getChamp());
 
 	while (window.isOpen()) {
 		sf::Event	event;
@@ -34,7 +34,7 @@ int main() {
 					break;
 			}
 		}
-		player.updateChamp();
+		player.updateChamp(&map);
 
 		window.clear(sf::Color::White);
 		map.render(window);

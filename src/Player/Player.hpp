@@ -3,19 +3,19 @@
 #include <string>
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "../Champion/Champion.hpp"
+#include "../Map/Map.hpp"
 
 using namespace std;
 
 class Player {
 	private:
 		string		_name;
-		Champion	_champion;
+		Champion	&_champion;
 	public:
-		Player(const string &name);
+		Player(const string &name, Champion &champion);
 		~Player();
 		
 		void				setChampionDest(const sf::Vector2f &vec);
 		sf::RectangleShape	&getChampBody();
-		void				updateChamp();
+		void				updateChamp(Map *map);
 };

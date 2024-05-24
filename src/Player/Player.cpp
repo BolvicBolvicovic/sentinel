@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(const string &name): _name(name) {
+Player::Player(const string &name, Champion &champion): _name(name), _champion(champion) {
 	cout << "A player has been summoned!" << endl;
 }
 
@@ -16,6 +16,6 @@ sf::RectangleShape	&Player::getChampBody() {
 	return this->_champion.getBody();
 }
 
-void	Player::updateChamp() {
-	this->_champion.updatePos();
+void	Player::updateChamp(Map *map) {
+	this->_champion.updatePos(map);
 }

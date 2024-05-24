@@ -4,16 +4,20 @@
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "Obstacle/Obstacle.hpp"
+#include "Entity/Obstacle/Obstacle.hpp"
+#include "Entity/Champion/Champion.hpp"
 
 using namespace std;
 
 class Map {
 	private:
-		vector<Obstacle>	_map;
+		vector<Entity*>	_map;
+		Champion 		_player1;
 	public:
 		Map();
 		~Map();
 		
-		void	render(sf::RenderWindow &window);
+		void		render(sf::RenderWindow &window);
+		bool		intersect_with_walls(Entity *entity, int flag);
+		Champion	&getChamp();
 };
