@@ -1,10 +1,11 @@
 #include "Map.hpp"
 
-Map::Map(): _player1(Champion()) {
-	this->_map.push_back(new Obstacle(sf::Vector2f(500, 100)));
-	this->_map.push_back(new Obstacle(sf::Vector2f(500, 500)));
-	this->_map.push_back(new Obstacle(sf::Vector2f(90 , 250)));
-	this->_map.push_back(new Obstacle(sf::Vector2f(300, 500)));
+Map::Map(): _player1(Champion(sf::Vector2f(100,100), sf::Vector2f(20,50), "Garen", "/home/bolvic/sentinel/Assets/playable character/warrior/warrior_armed_idle/S/warrior_armed_idle_S_270.0_0.png")) {
+	this->_map.push_back(new Obstacle(sf::Vector2f(500, 100), sf::Vector2f(20, 20), "Mushrooms", "/home/bolvic/sentinel/Assets/prop/mushrooms/S/mushrooms_S_270.0_0.png"));
+	this->_map.push_back(new Obstacle(sf::Vector2f(500, 500), sf::Vector2f(20, 20), "Mushrooms", "/home/bolvic/sentinel/Assets/prop/mushrooms/S/mushrooms_S_270.0_0.png"));
+	this->_map.push_back(new Obstacle(sf::Vector2f(1000, 250), sf::Vector2f(20, 20), "Mushrooms", "/home/bolvic/sentinel/Assets/prop/mushrooms/S/mushrooms_S_270.0_0.png"));
+	this->_map.push_back(new Obstacle(sf::Vector2f(300, 500), sf::Vector2f(20, 20), "Mushrooms", "/home/bolvic/sentinel/Assets/prop/mushrooms/S/mushrooms_S_270.0_0.png"));
+	this->_map.push_back(new Obstacle(sf::Vector2f(500, 100), sf::Vector2f(20, 20), "Mushrooms", "/home/bolvic/sentinel/Assets/prop/mushrooms/S/mushrooms_S_270.0_0.png"));
 }
 
 Map::~Map() {
@@ -25,10 +26,8 @@ Champion	&Map::getChamp() {
 
 
 bool		Map::intersect_with_walls(Entity *entity, int flag) {
-	sf::Vector2f player_size = entity->getBody().getSize();
-	sf::Vector2f player_pos = entity->getPos();
-	player_pos.x += player_size.x;
-	player_pos.y += player_size.y / 2.;
+	sf::Sprite		player_copy = entity->getBody();
+	sf::Vector2f	player_pos = player_copy.getPosition();
 	switch (flag) {
 		case 0:
 			player_pos.x += SPEED;
@@ -45,8 +44,9 @@ bool		Map::intersect_with_walls(Entity *entity, int flag) {
 		default:
 			break;
 	}
+	player_copy.setPosition(player_pos);
 	for (auto it = this->_map.begin(); it != this->_map.end(); it++) {
-		if ((*it)->intersect(player_pos, player_size)) {
+		if ((*it)->intersect(player_copy.getGlobalBounds())) {
 			return true;
 		}
 	}

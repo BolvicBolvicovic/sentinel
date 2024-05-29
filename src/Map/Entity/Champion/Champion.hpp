@@ -3,9 +3,7 @@
 #include "../Entity.hpp"
 class Map;
 
-const float SPEED = 0.05;
-const float CHAMP_LENGTH = 20;
-const float CHAMP_HEIGHT = 50;
+const float SPEED = 0.1;
 
 class Champion: public Entity {
 	private:
@@ -14,9 +12,9 @@ class Champion: public Entity {
 		Champion(
 			const sf::Vector2f	&pos,
 			const sf::Vector2f	&size,
-			const string		&name
+			const string		&name,
+			const string		&texture_url
 		);
-		Champion();
 		~Champion();
 	
 		void				updatePos(Map *map);

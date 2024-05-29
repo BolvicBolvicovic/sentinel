@@ -1,7 +1,7 @@
 #include "lib.hpp"
 
 int main() {
-	sf::RenderWindow	window(sf::VideoMode(800, 600), "sentinel");
+	sf::RenderWindow	window(sf::VideoMode(1920, 1080), "sentinel");
 	
 	Map		map;
 	Player	player("Victor", map.getChamp());
@@ -36,7 +36,7 @@ int main() {
 		}
 		player.updateChamp(&map);
 
-		window.clear(sf::Color::White);
+		window.clear(sf::Color::Black);
 		map.render(window);
 		window.draw(player.getChampBody());
 		window.display();

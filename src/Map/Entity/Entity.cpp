@@ -1,22 +1,28 @@
 #include "Entity.hpp"
 
 Entity::Entity(
-	const sf::Vector2f &pos,
-	const sf::Vector2f &size,
-	const string &name
+	const sf::Vector2f	&pos,
+	const sf::Vector2f	&size,
+	const string		&name,
+	const string		&texture_url
 ):
 	_name(name),
-	_pos(pos),
-	_body(sf::RectangleShape(size))
+	_pos(pos)
 {
-	_body.setOrigin(size.x / 2., size.y / 2.);
-	_body.setPosition(pos);
+	if (!_texture.loadFromFile(texture_url)) { cout << "Error loading file" << endl; } else {
+		cout << "Sprite loaded" << endl;
+		_sprite.setTexture(_texture);
+		_sprite.setPosition(pos);
+		(void)size;
+		_sprite.setTextureRect(sf::IntRect(105, 96, 32, 32));
+		_sprite.setOrigin(16, 16);
+	}
 }
 
 Entity::~Entity() {}
 
-sf::RectangleShape		&Entity::getBody() {
-	return this->_body;
+sf::Sprite		&Entity::getBody() {
+	return this->_sprite;
 }
 string					&Entity::getName() {
 	return this->_name;
@@ -24,10 +30,7 @@ string					&Entity::getName() {
 sf::Vector2f			&Entity::getPos() {
 	return this->_pos;
 }
-bool				Entity::intersect(const sf::Vector2f &obj_pos, const sf::Vector2f &obj_size) {
-	sf::Vector2f self_pos(this->_pos);
-	sf::Vector2f self_size(this->_body.getSize());
-	self_pos.y += self_size.y / 2.;
-	return	self_pos.x <= (obj_pos.x + obj_size.x) && (self_pos.x + self_size.x) > obj_pos.x &&
-			self_pos.y <= (obj_pos.y + obj_size.y) && (self_pos.y + self_size.y) > obj_pos.y ;
+
+bool				Entity::intersect(const sf::Rect<float> &rect) {
+	return this->_sprite.getGlobalBounds().intersects(rect);
 }

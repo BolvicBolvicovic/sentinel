@@ -15,7 +15,7 @@ class Player {
 		Player(const string &name, Champion &champion);
 		~Player();
 		
-		void				setChampionDest(const sf::Vector2f &vec);
-		sf::RectangleShape	&getChampBody();
-		void				updateChamp(Map *map);
+		void		setChampionDest(const sf::Vector2f &vec);
+		sf::Sprite	&getChampBody();
+		void		updateChamp(Map *map);
 };

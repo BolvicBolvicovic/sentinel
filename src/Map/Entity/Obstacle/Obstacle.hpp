@@ -9,9 +9,9 @@ class Obstacle: public Entity {
 		Obstacle(
 			const sf::Vector2f	&pos,
 			const sf::Vector2f	&size,
-			const string		&name
+			const string		&name,
+			const string		&texture_url
 		);
-		Obstacle(const sf::Vector2f &pos);
 		~Obstacle();
 
 		bool isCrossable();

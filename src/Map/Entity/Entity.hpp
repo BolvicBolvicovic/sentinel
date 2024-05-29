@@ -10,18 +10,20 @@ class Entity {
 	protected:
 		string				_name;
 		sf::Vector2f		_pos;
-		sf::RectangleShape	_body;
+		sf::Texture			_texture;
+		sf::Sprite			_sprite;
 	public:
 		Entity(
-			const sf::Vector2f &pos,
-			const sf::Vector2f &size,
-			const string &name
+			const sf::Vector2f	&pos,
+			const sf::Vector2f	&size,
+			const string		&name,
+			const string		&texture_url
 		);
 		virtual ~Entity();
 
-		sf::RectangleShape		&getBody();
+		sf::Sprite				&getBody();
 		sf::Vector2f			&getPos();
 		string					&getName();
-		bool					intersect(const sf::Vector2f &obj_pos, const sf::Vector2f &obj_size);
+		bool					intersect(const sf::Rect<float> &rect);
 		virtual void			updatePos() = 0;
 };

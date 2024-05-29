@@ -12,7 +12,7 @@ void	Player::setChampionDest(const sf::Vector2f &vec) {
 	this->_champion.setDest(vec);
 }
 
-sf::RectangleShape	&Player::getChampBody() {
+sf::Sprite	&Player::getChampBody() {
 	return this->_champion.getBody();
 }
 
