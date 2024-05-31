@@ -18,4 +18,6 @@ class Player {
 		void		setChampionDest(const sf::Vector2f &vec);
 		sf::Sprite	&getChampBody();
 		void		updateChamp(Map *map);
+		void		championAttack();
+		void		championDies();
 };

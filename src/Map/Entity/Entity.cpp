@@ -10,7 +10,7 @@ Entity::Entity(
 	_pos(pos)
 {
 	if (!_texture.loadFromFile(texture_url)) { cout << "Error loading file" << endl; } else {
-		cout << "Sprite loaded" << endl;
+		_texture.setSmooth(false);
 		_sprite.setTexture(_texture);
 		_sprite.setPosition(pos);
 		(void)size;
@@ -30,5 +30,7 @@ sf::Vector2f			&Entity::getPos() {
 }
 
 bool				Entity::intersect(const sf::Rect<float> &rect) {
+	//TODO: rebuild the intersection to it looks more real
+	//sf::FloatRect bounds(this->_pos.x, +);
 	return this->_sprite.getGlobalBounds().intersects(rect);
 }

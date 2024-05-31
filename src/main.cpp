@@ -1,6 +1,5 @@
 #include "lib.hpp"
 
-
 inline void eventLoop(sf::RenderWindow &window, Player &player) {
 	sf::Event	event;
 	while (window.pollEvent(event)) {
@@ -24,6 +23,12 @@ inline void eventLoop(sf::RenderWindow &window, Player &player) {
 				if (event.key.code == sf::Keyboard::Key::Escape) {
 					window.close();
 				}
+				if (event.key.code == sf::Keyboard::Key::A) {
+					player.championAttack();
+				}
+				if (event.key.code == sf::Keyboard::Key::K) {
+					player.championDies();
+				}
 				break;
 			default:
 				break;
@@ -32,11 +37,10 @@ inline void eventLoop(sf::RenderWindow &window, Player &player) {
 }
 
 int main() {
-	sf::RenderWindow	window(sf::VideoMode(1920, 1080), "sentinel");
+	sf::RenderWindow	window(sf::VideoMode(800, 800), "sentinel");
 	
 	Map		map;
 	Player	player("Victor", map.getChamp());
-
 	while (window.isOpen()) {
 
 		eventLoop(window, player);
