@@ -14,8 +14,6 @@ Entity::Entity(
 		_sprite.setTexture(_texture);
 		_sprite.setPosition(pos);
 		(void)size;
-		_sprite.setTextureRect(sf::IntRect(105, 96, 32, 32));
-		_sprite.setOrigin(16, 16);
 	}
 }
 

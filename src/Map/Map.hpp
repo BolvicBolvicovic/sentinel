@@ -18,6 +18,6 @@ class Map {
 		~Map();
 		
 		void		render(sf::RenderWindow &window);
-		bool		intersect_with_walls(Entity *entity, int flag);
+		bool		intersect_with_walls(Entity *entity, const sf::Vector2f &direction);
 		Champion	&getChamp();
 };

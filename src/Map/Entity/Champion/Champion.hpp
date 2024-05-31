@@ -1,13 +1,16 @@
 #pragma once
 
 #include "../Entity.hpp"
+#include <chrono>
 class Map;
-
-const float SPEED = 0.1;
 
 class Champion: public Entity {
 	private:
-		sf::Vector2f		_dest;
+		sf::Vector2f						_dest;
+		float								_speed;
+		int									_x_texture;
+		int									_y_texture;
+		chrono::system_clock::time_point	_last_frame_time;
 	public:
 		Champion(
 			const sf::Vector2f	&pos,
