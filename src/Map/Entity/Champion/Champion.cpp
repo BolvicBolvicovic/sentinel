@@ -8,7 +8,6 @@ Champion::Champion(
 			const string		&name,
 			const string		&texture_url
 ): Entity(pos, size, name, texture_url),
-	_dest(pos),
 	_speed(0.01),
 	_x_texture(0),
 	_y_texture(0),
@@ -24,13 +23,49 @@ Champion::~Champion() {
 }
 	
 void	Champion::setDest(const sf::Vector2f &dest) {
-	this->_dest = dest;
+	this->_dest.clear();
+	this->_dest.push_front(dest);
 }
 
 inline void normalizeVector(sf::Vector2f &vector) {
 	float magnetude = sqrt(vector.x * vector.x + vector.y * vector.y);
 	vector.x = vector.x / magnetude;
 	vector.y = vector.y / magnetude;
+}
+
+inline void Champion::move(Map *map, const int offset) {
+	sf::Vector2f direction = this->_pos - this->_dest[0];
+	sf::Vector2f distance_left = this->_pos - this->_dest[0];
+	normalizeVector(direction);
+	if (!(abs(distance_left.x) > 0.1 && abs(distance_left.y) > 0.1)) {
+		this->_dest.pop_front();
+	} else if (!map->intersect_with_walls(this, direction)) {
+		this->_pos -= direction * this->_speed;
+		this->_sprite.setPosition(this->_pos);
+		if (abs(direction.y) >= abs(direction.x)) {
+			if (direction.y <= 0)
+				this->_y_texture = offset * 3;
+			else
+				this->_y_texture = offset * 5;
+		} else {
+			this->_y_texture = offset * 4;
+			if (direction.x > 0) {
+				this->_sprite.setScale(-1, 1);
+			} else {
+				this->_sprite.setScale(1, 1);
+			}
+		}
+	} else {
+		auto new_pos = this->_pos;
+		new_pos.x += 100;
+		cout << "x: " << this->_dest[0].x << endl << "y: " << this->_dest[0].y << endl;
+		this->_dest.push_front(new_pos);
+		this->_x_texture = 0;
+		this->_y_texture -= offset * 3;
+		if (this->_y_texture < 0) {
+			this->_y_texture = 0;
+		}
+	}
 }
 
 void	Champion::updatePos(Map *map) {
@@ -62,35 +97,8 @@ void	Champion::updatePos(Map *map) {
 				break;
 		}
 		this->_x_texture = 0;
-	} else if (this->_pos != this->_dest && this->_attack == 4 && this->_is_alive == -1) {
-		sf::Vector2f direction = this->_pos - this->_dest;
-		sf::Vector2f distance_left = this->_pos - this->_dest;
-		normalizeVector(direction);
-		if (!map->intersect_with_walls(this, direction)
-			&& abs(distance_left.x) > 0.1 && abs(distance_left.y) > 0.1) {
-			this->_pos -= direction * this->_speed;
-			this->_sprite.setPosition(this->_pos);
-			if (abs(direction.y) >= abs(direction.x)) {
-				if (direction.y <= 0)
-					this->_y_texture = offset * 3;
-				else
-					this->_y_texture = offset * 5;
-			} else {
-				this->_y_texture = offset * 4;
-				if (direction.x > 0) {
-					this->_sprite.setScale(-1, 1);
-				} else {
-					this->_sprite.setScale(1, 1);
-				}
-			}
-		} else {
-			this->_dest = this->_pos;
-			this->_x_texture = 0;
-			this->_y_texture -= offset * 3;
-			if (this->_y_texture < 0) {
-				this->_y_texture = 0;
-			}
-		}
+	} else if (!this->_dest.empty() && this->_attack == 4 && this->_is_alive == -1) {
+		this->move(map, offset);
 	}
 	if (elapsed_time.count() > 0.3) {
 		this->_last_frame_time = now;
@@ -103,7 +111,7 @@ void	Champion::updatePos(Map *map) {
 					this->_y_texture = 0;
 				this->_x_texture = 0;
 				this->_pos = sf::Vector2f(40, 770);
-				this->_dest = this->_pos;
+				this->_dest.clear();
 				this->_sprite.setPosition(this->_pos);
 			}
 		}

@@ -4,7 +4,7 @@
 
 Map::Map():
 	_player1(Champion(
-		sf::Vector2f(100,100),
+		sf::Vector2f(400,400),
 		sf::Vector2f(20,50),
 		"Garen",
 		"/home/bolvic/sentinel/Assets/characters/player.png")

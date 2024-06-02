@@ -22,15 +22,15 @@ Entity::~Entity() {}
 sf::Sprite		&Entity::getBody() {
 	return this->_sprite;
 }
-string					&Entity::getName() {
+string			&Entity::getName() {
 	return this->_name;
 }
-sf::Vector2f			&Entity::getPos() {
+sf::Vector2f	&Entity::getPos() {
 	return this->_pos;
 }
 
-bool				Entity::intersect(const sf::Rect<float> &rect) {
-	//TODO: rebuild the intersection to it looks more real
-	//sf::FloatRect bounds(this->_pos.x, +);
-	return this->_sprite.getGlobalBounds().intersects(rect);
+bool			Entity::intersect(const sf::Rect<float> &rect) {
+	auto text_rect = this->_sprite.getTextureRect();
+	auto this_bounds = sf::Rect<float>(this->_sprite.getPosition().x - text_rect.width / 8, this->_sprite.getPosition().y - text_rect.height/ 5, text_rect.width / 5, text_rect.height / 4);
+	return this_bounds.intersects(rect);
 }

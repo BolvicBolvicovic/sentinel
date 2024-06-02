@@ -2,17 +2,21 @@
 
 #include "../Entity.hpp"
 #include <chrono>
+#include <deque>
 class Map;
 
 class Champion: public Entity {
 	private:
-		sf::Vector2f						_dest;
+		deque<sf::Vector2f>				_dest;
 		float								_speed;
 		int									_x_texture;
 		int									_y_texture;
 		chrono::system_clock::time_point	_last_frame_time;
 		int									_attack;
 		int									_is_alive;
+		
+		void				move(Map *map, const int offset);
+
 	public:
 		Champion(
 			const sf::Vector2f	&pos,
