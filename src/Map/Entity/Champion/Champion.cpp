@@ -34,12 +34,35 @@ inline void normalizeVector(sf::Vector2f &vector) {
 }
 
 inline void Champion::move(Map *map, const int offset) {
-	sf::Vector2f direction = this->_pos - this->_dest[0];
-	sf::Vector2f distance_left = this->_pos - this->_dest[0];
-	normalizeVector(direction);
-	if (!(abs(distance_left.x) > 0.1 && abs(distance_left.y) > 0.1)) {
-		this->_dest.pop_front();
-	} else if (!map->intersect_with_walls(this, direction)) {
+	if (this->_dest.empty()) {
+		this->_x_texture = 0;
+		this->_y_texture -= offset * 3;
+		if (this->_y_texture < 0) {
+			this->_y_texture = 0;
+		}
+		return;
+	}
+	sf::Vector2f direction;
+	sf::Vector2f distance_left;
+	while (!this->_dest.empty()) {
+		direction = this->_pos - this->_dest[0];
+		distance_left = this->_pos - this->_dest[0];
+		normalizeVector(direction);
+		if (abs(distance_left.x) < 0.1 && abs(distance_left.y) < 0.1) {
+			this->_dest.pop_front();
+			if (this->_dest.empty()) {
+				this->_x_texture = 0;
+				this->_y_texture -= offset * 3;
+				if (this->_y_texture < 0) {
+					this->_y_texture = 0;
+				}
+				return;
+			}
+		} else {
+			break;
+		}
+	}
+	if (!map->intersect_with_walls(this, direction)) {
 		this->_pos -= direction * this->_speed;
 		this->_sprite.setPosition(this->_pos);
 		if (abs(direction.y) >= abs(direction.x)) {
@@ -57,14 +80,19 @@ inline void Champion::move(Map *map, const int offset) {
 		}
 	} else {
 		auto new_pos = this->_pos;
-		new_pos.x += 100;
-		cout << "x: " << this->_dest[0].x << endl << "y: " << this->_dest[0].y << endl;
-		this->_dest.push_front(new_pos);
-		this->_x_texture = 0;
-		this->_y_texture -= offset * 3;
-		if (this->_y_texture < 0) {
-			this->_y_texture = 0;
+		if (abs(direction.y) >= abs(direction.x)) {
+			if (direction.x > 0)
+				new_pos.x -= 10;
+			else
+				new_pos.x += 10;
+		} else {
+			if (direction.y <= 0) {
+				new_pos.y += 10;
+			} else {
+				new_pos.y -= 10;
+			}
 		}
+		this->_dest.push_front(new_pos);
 	}
 }
 
