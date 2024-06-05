@@ -1,6 +1,6 @@
 #include "lib.hpp"
 
-inline void eventLoop(sf::RenderWindow &window, Player &player) {
+inline void eventLoop(sf::RenderWindow& window, Player& player, Map* map) {
 	sf::Event	event;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed)
@@ -15,7 +15,8 @@ inline void eventLoop(sf::RenderWindow &window, Player &player) {
 						sf::Vector2f(
 							event.mouseButton.x,
 							event.mouseButton.y
-						)
+						),
+						map
 					);
 				}
 				break;
@@ -43,7 +44,7 @@ int main() {
 	Player	player("Victor", map.getChamp());
 	while (window.isOpen()) {
 
-		eventLoop(window, player);
+		eventLoop(window, player, &map);
 		player.updateChamp(&map);
 
 		window.clear(sf::Color::Black);

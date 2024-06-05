@@ -6,8 +6,8 @@ Player::Player(const string &name, Champion &champion): _name(name), _champion(c
 Player::~Player() {
 }
 
-void		Player::setChampionDest(const sf::Vector2f &vec) {
-	this->_champion.setDest(vec);
+void		Player::setChampionDest(const sf::Vector2f& vec, Map* map) {
+	this->_champion.setDest(vec, map);
 }
 
 sf::Sprite	&Player::getChampBody() {

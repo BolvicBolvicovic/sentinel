@@ -15,7 +15,7 @@ class Player {
 		Player(const string &name, Champion &champion);
 		~Player();
 		
-		void		setChampionDest(const sf::Vector2f &vec);
+		void		setChampionDest(const sf::Vector2f& vec, Map* map);
 		sf::Sprite	&getChampBody();
 		void		updateChamp(Map *map);
 		void		championAttack();

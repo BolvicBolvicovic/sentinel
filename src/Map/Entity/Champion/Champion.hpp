@@ -7,7 +7,7 @@ class Map;
 
 class Champion: public Entity {
 	private:
-		deque<sf::Vector2f>				_dest;
+		deque<sf::Vector2f>					_dest;
 		float								_speed;
 		int									_x_texture;
 		int									_y_texture;
@@ -26,9 +26,9 @@ class Champion: public Entity {
 		);
 		~Champion();
 	
-		void				updatePos(Map *map);
+		void				updatePos(Map* map);
 		void				updatePos() override {}
-		void				setDest(const sf::Vector2f &dest);
+		void				setDest(const sf::Vector2f& dest, Map* map);
 		void				attack();
 		void				dies();
 };

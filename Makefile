@@ -4,7 +4,7 @@ SRC = ./src/*.cpp \
 	  ./src/Map/Map.cpp \
 	  ./src/Map/Entity/Entity.cpp \
 	  ./src/Map/Entity/Champion/Champion.cpp \
-	  ./src/Map/Entity/Obstacle/Obstacle.cpp
+	  ./src/Map/Entity/Obstacle/Obstacle.cpp 
 INC = -Wall -Wextra -Werror -lsfml-graphics -lsfml-window -lsfml-system
 all: ${BIN}
 
@@ -14,4 +14,6 @@ ${BIN} : ${SRC}
 clean:
 	rm -f ${BIN}
 
-.PHONY: all clean
+re: clean all
+
+.PHONY: all clean re

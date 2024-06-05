@@ -1,6 +1,7 @@
 #include "Champion.hpp"
 #include "../../Map.hpp"
 #include <math.h>
+#include "../Pathfinding.cpp"
 
 Champion::Champion(
 			const sf::Vector2f	&pos,
@@ -22,9 +23,10 @@ Champion::Champion(
 Champion::~Champion() {
 }
 	
-void	Champion::setDest(const sf::Vector2f &dest) {
+void	Champion::setDest(const sf::Vector2f &dest, Map *map) {
 	this->_dest.clear();
-	this->_dest.push_front(dest);
+	this->_dest = findPath(this->_pos, dest, map, this);
+	cout << this->_dest.empty() << endl;
 }
 
 inline void normalizeVector(sf::Vector2f &vector) {
@@ -34,6 +36,7 @@ inline void normalizeVector(sf::Vector2f &vector) {
 }
 
 inline void Champion::move(Map *map, const int offset) {
+	(void) map;
 	if (this->_dest.empty()) {
 		this->_x_texture = 0;
 		this->_y_texture -= offset * 3;
@@ -62,37 +65,20 @@ inline void Champion::move(Map *map, const int offset) {
 			break;
 		}
 	}
-	if (!map->intersect_with_walls(this, direction)) {
-		this->_pos -= direction * this->_speed;
-		this->_sprite.setPosition(this->_pos);
-		if (abs(direction.y) >= abs(direction.x)) {
-			if (direction.y <= 0)
-				this->_y_texture = offset * 3;
-			else
-				this->_y_texture = offset * 5;
-		} else {
-			this->_y_texture = offset * 4;
-			if (direction.x > 0) {
-				this->_sprite.setScale(-1, 1);
-			} else {
-				this->_sprite.setScale(1, 1);
-			}
-		}
+	this->_pos -= direction * this->_speed;
+	this->_sprite.setPosition(this->_pos);
+	if (abs(direction.y) >= abs(direction.x)) {
+		if (direction.y <= 0)
+			this->_y_texture = offset * 3;
+		else
+			this->_y_texture = offset * 5;
 	} else {
-		auto new_pos = this->_pos;
-		if (abs(direction.y) >= abs(direction.x)) {
-			if (direction.x > 0)
-				new_pos.x -= 10;
-			else
-				new_pos.x += 10;
+		this->_y_texture = offset * 4;
+		if (direction.x > 0) {
+			this->_sprite.setScale(-1, 1);
 		} else {
-			if (direction.y <= 0) {
-				new_pos.y += 10;
-			} else {
-				new_pos.y -= 10;
-			}
+			this->_sprite.setScale(1, 1);
 		}
-		this->_dest.push_front(new_pos);
 	}
 }
 

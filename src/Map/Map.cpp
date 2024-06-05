@@ -113,6 +113,12 @@ Map::Map():
 	};
 	this->_map.push_back(new Obstacle(sf::Vector2f(80, 700), sf::Vector2f(0.4, 0.4), "BlueBase", "/home/bolvic/sentinel/Assets/tower_defense/12.png"));
 	this->_map.push_back(new Obstacle(sf::Vector2f(670, 70), sf::Vector2f(0.4, 0.4), "RedBase", "/home/bolvic/sentinel/Assets/tower_defense/12.png"));
+	for (int x = 0; x <= 800; x += 16) {
+		this->_map.push_back(new Obstacle(sf::Vector2f(x, 0), sf::Vector2f(0.4, 0.4), "Rock", "/home/bolvic/sentinel/Assets/objects/rock_in_water_01.png"));
+		this->_map.push_back(new Obstacle(sf::Vector2f(x, 800), sf::Vector2f(0.4, 0.4), "Rock", "/home/bolvic/sentinel/Assets/objects/rock_in_water_01.png"));
+		this->_map.push_back(new Obstacle(sf::Vector2f(0, x), sf::Vector2f(0.4, 0.4), "Rock", "/home/bolvic/sentinel/Assets/objects/rock_in_water_01.png"));
+		this->_map.push_back(new Obstacle(sf::Vector2f(800, x), sf::Vector2f(0.4, 0.4), "Rock", "/home/bolvic/sentinel/Assets/objects/rock_in_water_01.png"));
+	}
 	if (!this->_tilemap_texture.loadFromFile("/home/bolvic/sentinel/Assets/tilesets/decor_8x8.png")) { cerr << "Error loading tilemap" << endl; }
 	else {
 		this->_tilemap_texture.setSmooth(false);
@@ -157,10 +163,9 @@ Champion	&Map::getChamp() {
 }
 
 
-bool		Map::intersect_with_walls(Entity *entity, const sf::Vector2f &direction) {
+bool		Map::intersect_with_walls(Entity *entity, const sf::Vector2f &pos) {
 	sf::Sprite		player_copy = entity->getBody();
-	sf::Vector2f	player_pos = player_copy.getPosition();
-	player_copy.setPosition(player_pos - direction);
+	player_copy.setPosition(pos);
 	for (auto it = this->_map.begin(); it != this->_map.end(); it++) {
 		if ((*it)->intersect(player_copy.getGlobalBounds())) {
 			return true;
